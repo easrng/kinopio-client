@@ -14,7 +14,6 @@ import UpdatePassword from '@/components/dialogs/UpdatePassword.vue'
 import Share from '@/components/dialogs/Share.vue'
 import UserNotifications from '@/components/dialogs/UserNotifications.vue'
 import Loader from '@/components/Loader.vue'
-import templates from '@/data/templates.js'
 import ImportArenaChannel from '@/components/dialogs/ImportArenaChannel.vue'
 import KeyboardShortcuts from '@/components/dialogs/KeyboardShortcuts.vue'
 import AppsAndExtensions from '@/components/dialogs/AppsAndExtensions.vue'
@@ -91,7 +90,7 @@ onMounted(() => {
       hidden()
     } else if (mutation.type === 'triggerTemplatesIsVisible') {
       updateTemplatesIsVisible(true)
-    } else if (mutation.type === 'triggerRemovedIsVisible' || mutation.type === 'triggerAIImagesIsVisible') {
+    } else if (mutation.type === 'triggerRemovedIsVisible') {
       updateSidebarIsVisible(true)
     } else if (mutation.type === 'triggerImportIsVisible') {
       updateImportIsVisible(true)
@@ -200,9 +199,7 @@ const spaceHasStatusAndStatusDialogIsNotVisible = computed(() => {
   }
 })
 const currentSpaceIsTemplate = computed(() => {
-  if (currentSpace.value.isTemplate) { return true }
-  const templateSpaceIds = templates.spaces().map(space => space.id)
-  return templateSpaceIds.includes(currentSpace.value.id)
+  return currentSpace.value.isTemplate
 })
 const currentSpaceIsFromTweet = computed(() => currentSpace.value.isFromTweet)
 const currentSpaceIsInbox = computed(() => currentSpace.value.name === 'Inbox')

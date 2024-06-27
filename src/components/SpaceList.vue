@@ -2,7 +2,6 @@
 import { reactive, computed, onMounted, onBeforeUnmount, onUnmounted, defineProps, defineEmits, watch, ref, nextTick } from 'vue'
 import { useStore } from 'vuex'
 
-import templates from '@/data/templates.js'
 import ResultsFilter from '@/components/ResultsFilter.vue'
 import MoonPhase from '@/components/MoonPhase.vue'
 import PrivacyIcon from '@/components/PrivacyIcon.vue'
@@ -155,11 +154,6 @@ const isLoadingSpace = (space) => {
 const spaceIsCurrentSpace = (space) => {
   const currentSpace = store.state.currentSpace.id
   return Boolean(currentSpace === space.id)
-}
-const spaceIsTemplate = (space) => {
-  if (space.isTemplate) { return true }
-  const templateSpaceIds = templates.spaces().map(template => template.id)
-  return templateSpaceIds.includes(space.id)
 }
 const showInExplore = (space) => {
   if (props.hideExploreBadge) { return }

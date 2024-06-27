@@ -8,7 +8,6 @@ import Links from '@/components/sidebar/Links.vue'
 import Tags from '@/components/sidebar/Tags.vue'
 import Comments from '@/components/sidebar/Comments.vue'
 import Removed from '@/components/sidebar/Removed.vue'
-import AIImages from '@/components/sidebar/AIImages.vue'
 import Stats from '@/components/sidebar/Stats.vue'
 import Text from '@/components/sidebar/Text.vue'
 import Inbox from '@/components/sidebar/Inbox.vue'
@@ -24,8 +23,6 @@ onMounted(() => {
       updateDialogHeight()
     } else if (mutation.type === 'triggerRemovedIsVisible') {
       triggerRemovedIsVisible()
-    } else if (mutation.type === 'triggerAIImagesIsVisible') {
-      triggerAIImagesIsVisible()
     }
   })
 })
@@ -49,7 +46,6 @@ const state = reactive({
   linksIsVisible: false,
   commentsIsVisible: false,
   removedIsVisible: false,
-  AIImagesIsVisible: false,
   inboxIsVisible: false,
   statsIsVisible: false,
   textIsVisible: false,
@@ -61,7 +57,6 @@ const clearVisible = () => {
   state.tagsIsVisible = false
   state.commentsIsVisible = false
   state.removedIsVisible = false
-  state.AIImagesIsVisible = false
   state.inboxIsVisible = false
   state.statsIsVisible = false
   state.textIsVisible = false
@@ -94,11 +89,6 @@ const triggerRemovedIsVisible = async () => {
   clearVisible()
   state.removedIsVisible = true
 }
-const triggerAIImagesIsVisible = async () => {
-  await nextTick()
-  clearVisible()
-  state.AIImagesIsVisible = true
-}
 const toggleTagsIsVisible = () => {
   clearVisible()
   state.tagsIsVisible = true
@@ -124,11 +114,6 @@ const toggleInboxIsVisible = () => {
   state.inboxIsVisible = true
   updateUserLastSidebarSection('inbox')
 }
-const toggleAIImagesIsVisible = () => {
-  clearVisible()
-  state.AIImagesIsVisible = true
-  updateUserLastSidebarSection('AIImages')
-}
 const toggleStatsIsVisible = () => {
   clearVisible()
   state.statsIsVisible = true
@@ -150,7 +135,7 @@ const toggleFavoritesIsVisible = () => {
 const restoreUserLastSidebarSection = () => {
   clearVisible()
   const section = store.state.currentUser.lastSidebarSection
-  const values = ['text', 'stats', 'AIImages', 'inbox', 'removed', 'comments', 'links', 'tags', 'favorites'] // listed in api docs
+  const values = ['text', 'stats', 'inbox', 'removed', 'comments', 'links', 'tags', 'favorites'] // listed in api docs
   const isValid = values.includes(section)
   if (section && isValid) {
     state[section + 'IsVisible'] = true
@@ -194,10 +179,6 @@ dialog#sidebar.sidebar.is-pinnable(v-if="visible" :open="visible" @click.left.st
           //- Stats
           button(@click.left="toggleStatsIsVisible" :class="{active: state.statsIsVisible}")
             img.icon.stats(src="@/assets/stats.svg")
-          //- AI Images
-          button(@click.left="toggleAIImagesIsVisible" :class="{ active: state.AIImagesIsVisible}")
-            img.icon.flower(src="@/assets/flower.svg")
-            span AI
           //- Removed
           button(@click.left="toggleRemovedIsVisible" :class="{ active: state.removedIsVisible}")
             img.icon(src="@/assets/remove.svg")
@@ -213,7 +194,6 @@ dialog#sidebar.sidebar.is-pinnable(v-if="visible" :open="visible" @click.left.st
   Links(:visible="state.linksIsVisible" :parentIsPinned="dialogIsPinned")
   Comments(:visible="state.commentsIsVisible")
   Removed(:visible="state.removedIsVisible")
-  AIImages(:visible="state.AIImagesIsVisible")
   Stats(:visible="state.statsIsVisible")
   Text(:visible="state.textIsVisible")
   Inbox(:visible="state.inboxIsVisible")

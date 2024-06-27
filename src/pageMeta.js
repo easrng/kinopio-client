@@ -1,5 +1,6 @@
 import utils from '@/utils.js'
 import consts from '@/consts.js'
+import logo from '@/assets/logo-base.png'
 
 const fetchSpacePublicMeta = async (spaceId) => {
   const url = `${consts.apiHost()}/space/${spaceId}/public-meta`
@@ -18,7 +19,6 @@ const fetchSpacePublicMeta = async (spaceId) => {
 export default {
   async space (spaceId, isInvite) {
     const urlParams = new URLSearchParams(window.location.search)
-    const logo = 'https://updates.kinopio.club/logo-social-media-avatar.png'
     let path = window.document.location.pathname
     if (!spaceId) {
       const ids = utils.spaceAndCardIdFromPath(path)

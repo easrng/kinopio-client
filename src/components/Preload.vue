@@ -120,14 +120,14 @@
     img.icon(src="@/assets/visit.svg")
 
     //- font previews
-    img(src="https://updates.kinopio.club/font-preview/apris.webp")
-    img(src="https://updates.kinopio.club/font-preview/gaya.webp")
-    img(src="https://updates.kinopio.club/font-preview/grotesk-remix.webp")
-    img(src="https://updates.kinopio.club/font-preview/gt-america.webp")
-    img(src="https://updates.kinopio.club/font-preview/microgramma.webp")
-    img(src="https://updates.kinopio.club/font-preview/migra.webp")
-    img(src="https://updates.kinopio.club/font-preview/recoleta.webp")
-    img(src="https://updates.kinopio.club/font-preview/shinka-mono.webp")
+    img(src="@/assets/font-preview/apris.webp")
+    img(src="@/assets/font-preview/gaya.webp")
+    img(src="@/assets/font-preview/grotesk-remix.webp")
+    img(src="@/assets/font-preview/gt-america.webp")
+    img(src="@/assets/font-preview/microgramma.webp")
+    img(src="@/assets/font-preview/migra.webp")
+    img(src="@/assets/font-preview/recoleta.webp")
+    img(src="@/assets/font-preview/shinka-mono.webp")
 </template>
 
 <script>

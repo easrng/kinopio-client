@@ -100,7 +100,7 @@ template(v-if="settingsIsVisible")
       .button-wrap(v-if="isSpaceMember")
         .segmented-buttons
           //- Remove
-          button.danger(@click.left="removeCurrentSpace" :class="{ disabled: currentSpaceIsTemplate }")
+          button.danger(@click.left="removeCurrentSpace" :class="{}")
             template(v-if="currentUserIsSpaceCollaborator")
               img.icon.cancel(src="@/assets/add.svg")
               span Leave
@@ -119,7 +119,6 @@ import BackgroundPicker from '@/components/dialogs/BackgroundPicker.vue'
 import BackgroundPreview from '@/components/BackgroundPreview.vue'
 import Loader from '@/components/Loader.vue'
 import PrivacyButton from '@/components/PrivacyButton.vue'
-import templates from '@/data/templates.js'
 import ImportExport from '@/components/dialogs/ImportExport.vue'
 import ReadOnlySpaceInfoBadges from '@/components/ReadOnlySpaceInfoBadges.vue'
 import AddToExplore from '@/components/AddToExplore.vue'
@@ -183,11 +182,6 @@ export default {
   },
   computed: {
     isLoadingSpace () { return this.$store.state.isLoadingSpace },
-    currentSpaceIsTemplate () {
-      const id = this.currentSpace.id
-      const templateSpaceIds = templates.spaces().map(space => space.id)
-      return templateSpaceIds.includes(id)
-    },
     currentSpaceIsUserTemplate () { return this.currentSpace.isTemplate },
     showInExplore () { return this.$store.state.currentSpace.showInExplore },
     spaceName: {

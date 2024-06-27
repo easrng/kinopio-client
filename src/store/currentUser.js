@@ -61,7 +61,6 @@ const initialState = {
   shouldPauseConnectionDirections: false,
   shouldInvertZoom: false,
   lastUsedImagePickerService: '',
-  AIImages: [],
   theme: null,
   themeIsSystem: false,
   weather: '',
@@ -379,10 +378,6 @@ export default {
       state.lastUsedImagePickerService = value
       cache.updateUser('lastUsedImagePickerService', value)
     },
-    AIImages: (state, value) => {
-      state.AIImages = value
-      cache.updateUser('AIImages', value)
-    },
     theme: (state, value) => {
       state.theme = value
       cache.updateUser('theme', value)
@@ -536,7 +531,6 @@ export default {
       if (!context.getters.isSignedIn) { return }
       const remoteUser = await context.dispatch('api/getUser', null, { root: true })
       if (!remoteUser) { return }
-      remoteUser.AIImages = await context.dispatch('api/getUserAIImages', null, { root: true }) || []
       remoteUser.updatedAt = utils.normalizeToUnixTime(remoteUser.updatedAt)
       console.log('🌸 Restore user from remote', remoteUser)
       context.commit('updateUser', remoteUser)
@@ -935,40 +929,6 @@ export default {
       const connections = rootState.filteredConnectionTypeIds
       const frames = rootState.filteredFrameIds
       return userFilters + tagNames.length + connections.length + frames.length
-    },
-
-    // AI Images
-
-    AIImagesThisMonth: (state) => {
-      if (state.isUpgraded) {
-        const currentMonth = dayjs().month()
-        const currentYear = dayjs().year()
-        return state.AIImages.filter(image => {
-          const month = dayjs(image.createdAt).month()
-          const year = dayjs(image.createdAt).year()
-          const isInCurrentMonth = month === currentMonth
-          const isInCurrentYear = year === currentYear
-          return isInCurrentMonth && isInCurrentYear
-        })
-      } else {
-        return state.AIImages
-      }
-    },
-    AIImagesThisMonthCount: (state, getters) => {
-      const images = getters.AIImagesThisMonth
-      return Math.floor(images.length / 2)
-    },
-    AIImagesLimit: (state, getters) => {
-      if (state.isUpgraded) {
-        return consts.AIImageLimitUpgradedUser
-      } else {
-        return consts.AIImageLimitFreeUser
-      }
-    },
-    AIImagesIsUnderLimit: (state, getters) => {
-      const current = getters.AIImagesThisMonthCount
-      const limit = getters.AIImagesLimit
-      return current < limit
     },
 
     // Billing

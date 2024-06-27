@@ -580,7 +580,6 @@ const store = createStore({
     triggerUpdateUrlPreview: (state, cardId) => {},
     triggerUpdateUrlPreviewComplete: (state, cardId) => {},
     triggerRemovedIsVisible: () => {},
-    triggerAIImagesIsVisible: () => {},
     triggerClearAllSpaceFilters: () => {},
     triggerScrollUserDetailsIntoView: () => {},
     triggerUpdateLockedItemButtonPositionCardId: (state, cardId) => {},

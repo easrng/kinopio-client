@@ -331,21 +331,6 @@ const self = {
         context.dispatch('handleServerError', { name: 'getUser', error })
       }
     },
-    getUserAIImages: async (context, limit) => {
-      const isSpacePage = context.rootGetters.isSpacePage
-      if (!isSpacePage) { return }
-      const apiKey = context.rootState.currentUser.apiKey
-      const isOnline = context.rootState.isOnline
-      if (!shouldRequest({ apiKey, isOnline })) { return }
-      try {
-        limit = limit || 100
-        const options = await context.dispatch('requestOptions', { method: 'GET', space: context.rootState.currentSpace })
-        const response = await fetch(`${consts.apiHost()}/user/ai-images?limit=${limit}`, options)
-        return normalizeResponse(response)
-      } catch (error) {
-        context.dispatch('handleServerError', { name: 'getUserAIImages', error })
-      }
-    },
     getUserFavoriteSpaces: async (context) => {
       const apiKey = context.rootState.currentUser.apiKey
       const isOnline = context.rootState.isOnline
@@ -1139,17 +1124,6 @@ const self = {
         return data
       } catch (error) {
         console.error('🚒 journalDailyPrompt', error)
-      }
-    },
-    createAIImage: async (context, body) => {
-      try {
-        const options = await context.dispatch('requestOptions', { body, method: 'POST', space: context.rootState.currentSpace })
-        const response = await fetch(`${consts.apiHost()}/services/ai-image`, options)
-        const data = await normalizeResponse(response)
-        return data
-      } catch (error) {
-        console.error('🚒 createAIImage', error)
-        throw new Error(error)
       }
     },
     communityBackgrounds: async (context) => {

@@ -6,7 +6,6 @@ import cache from '@/cache.js'
 import consts from '@/consts.js'
 import privacy from '@/data/privacy.js'
 import utils from '@/utils.js'
-import templates from '@/data/templates.js'
 import PrivacyIcon from '@/components/PrivacyIcon.vue'
 import OfflineBadge from '@/components/OfflineBadge.vue'
 
@@ -84,10 +83,7 @@ const cardsCreatedCountFromLimit = computed(() => {
   return Math.max(cardsCreatedLimit - cardsCreatedCount, 0)
 })
 const currentSpaceIsTemplate = computed(() => {
-  const currentSpace = store.state.currentSpace
-  if (currentSpace.isTemplate) { return true }
-  const templateSpaceIds = templates.spaces().map(space => space.id)
-  return templateSpaceIds.includes(currentSpace.id)
+  return store.state.currentSpace.isTemplate
 })
 
 // space out of sync

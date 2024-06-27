@@ -896,7 +896,7 @@ const validUrls = computed(() => {
     return isLink && isValidUrl
   })
 })
-const validWebUrls = computed(() => {
+/* const validWebUrls = computed(() => {
   const urls = validUrls.value.filter(url => {
     const urlHasProtocol = utils.urlHasProtocol(url)
     const isUpload = url.includes('us-east-1.linodeobjects.com') || url.includes('cdn.kinopio.club')
@@ -907,7 +907,7 @@ const validWebUrls = computed(() => {
     removeUrlPreview()
   }
   return urls
-})
+}) */
 const hasUrls = computed(() => {
   return Boolean(validUrls.value.length)
 })

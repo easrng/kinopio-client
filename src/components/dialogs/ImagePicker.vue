@@ -3,7 +3,6 @@ import { reactive, computed, onMounted, onUnmounted, defineProps, defineEmits, w
 import { useStore } from 'vuex'
 
 import Loader from '@/components/Loader.vue'
-import AIImageGeneration from '@/components/AIImageGeneration.vue'
 import utils from '@/utils.js'
 import cache from '@/cache.js'
 import consts from '@/consts.js'
@@ -120,16 +119,11 @@ const provider = computed(() => {
 })
 const serviceIsPexels = computed(() => state.service === 'pexels')
 const serviceIsStickers = computed(() => state.service === 'stickers')
-const serviceIsAI = computed(() => state.service === 'ai')
 const serviceIsGifs = computed(() => state.service === 'gifs')
 const lastUsedImagePickerService = computed(() => store.state.currentUser.lastUsedImagePickerService)
 const toggleServiceIsPexels = () => {
   state.service = 'pexels'
   searchAgain()
-  updateLastUsedImagePickerService()
-}
-const toggleServiceIsAI = () => {
-  state.service = 'ai'
   updateLastUsedImagePickerService()
 }
 const toggleServiceIsStickers = () => {
@@ -362,8 +356,6 @@ dialog.image-picker(v-if="visible" :open="visible" @click.left.stop ref="dialogE
       .segmented-buttons
         button(@click.left.stop="toggleServiceIsStickers" :class="{active : serviceIsStickers}" title="stickers")
           img.icon.sticker(src="@/assets/sticker.svg")
-        button(@click.left.stop="toggleServiceIsAI" :class="{active : serviceIsAI}" title="AI")
-          span AI
         button(@click.left.stop="toggleServiceIsPexels" :class="{active : serviceIsPexels}" title="pexels")
           img.icon(src="@/assets/search.svg")
         button(@click.left.stop="toggleServiceIsGifs" :class="{active : serviceIsGifs}" title="gifs")
@@ -398,9 +390,6 @@ dialog.image-picker(v-if="visible" :open="visible" @click.left.stop ref="dialogE
       .badge.danger
         span (シ_ _)シ Something went wrong, Please try again or contact support
 
-  AIImageGeneration(@selectImage="selectImage" :visible="serviceIsAI" :initialPrompt="state.search" :cardUrl="cardUrl" @updateDialogHeight="updateDialogHeight")
-    //-
-  template(v-if="!serviceIsAI")
     //- search box
     section.results-section.search-input-wrap
       .search-wrap

@@ -1186,7 +1186,7 @@ const shouldUpdateUrlPreview = (url) => {
   const previewIsVisible = props.card.urlPreviewIsVisible
   const isNotPreviewUrl = url !== props.card.urlPreviewUrl
   const isNotErrorUrl = url !== props.card.urlPreviewErrorUrl
-  const isNotKinopioUrl = !url.startsWith('https://kinopio.club')
+  const isNotKinopioUrl = !url.startsWith(location.origin)
   const isLocalhostUrl = url.match(utils.localhostUrlPattern())
   return previewIsVisible && isNotPreviewUrl && isNotErrorUrl && isNotKinopioUrl && !isLocalhostUrl
 }

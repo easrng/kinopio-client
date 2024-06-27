@@ -65,7 +65,7 @@ import Loader from '@/components/Loader.vue'
 import cache from '@/cache.js'
 
 import inboxSpace from '@/data/inbox.json'
-import helloSpace from '@/data/hello.json'
+import newSpace from '@/data/new.json'
 
 import { nanoid } from 'nanoid'
 
@@ -242,7 +242,7 @@ export default {
         // update user to remote user
         this.$store.commit('currentUser/updateUser', result)
         // update local spaces to remote user
-        this.removeUneditedSpace('Hello Kinopio')
+        this.removeUneditedSpace('New Space')
         this.removeUneditedSpace('Inbox')
         this.updateSpacesUserId()
         await this.$store.dispatch('api/createSpaces')
@@ -299,8 +299,8 @@ export default {
     removeUneditedSpace (spaceName) {
       let currentSpace = cache.getSpaceByName(spaceName)
       let space
-      if (spaceName === 'Hello Kinopio') {
-        space = helloSpace
+      if (spaceName === 'New Space') {
+        space = newSpace
       } else if (spaceName === 'Inbox') {
         space = inboxSpace
       }

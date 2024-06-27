@@ -3,7 +3,6 @@ import { reactive, computed, onMounted, onBeforeUnmount, onUnmounted, defineProp
 import { useStore } from 'vuex'
 
 import SpaceList from '@/components/SpaceList.vue'
-import templates from '@/data/templates.js'
 import cache from '@/cache.js'
 import utils from '@/utils.js'
 
@@ -48,30 +47,10 @@ const changeSpace = (space) => {
 
 // templates
 
-const templatesList = computed(() => {
-  const templates = state.localSpaces.concat(systemTemplates.value)
-  return templates.map(template => {
-    template.previewThumbnailImage = `https://us-east-1.linodeobjects.com/kinopio-uploads/${template.id}/preview-image-thumbnail-${template.id}.jpg`
-    return template
-  })
-})
 const initUserTemplates = () => {
   updateWithLocalSpaces()
   updateWithRemoteSpaces()
 }
-
-// system templates
-
-const systemTemplates = computed(() => {
-  let spaces = templates.spaces()
-  return spaces.map(space => {
-    if (!space.categoryId) { return }
-    const category = templates.categories().find(category => category.id === space.categoryId)
-    space.category = category.name
-    space.fullName = `${space.category} – ${space.name}`
-    return space
-  })
-})
 
 // user templates
 
@@ -136,10 +115,11 @@ dialog.templates.narrow(
 )
   section
     p Templates
-  section.add-to-templates
-  section.results-section(ref="resultsSectionElement" :style="{'max-height': state.resultsSectionHeight + 'px'}")
+  section(v-if="state.localSpaces.length < 1")
+    p You haven't created any templates yet.
+  section.results-section(v-else ref="resultsSectionElement" :style="{'max-height': state.resultsSectionHeight + 'px'}")
     SpaceList(
-      :spaces="templatesList"
+      :spaces="state.localSpaces"
       :showCategory="true"
       @selectSpace="changeSpace"
       :isLoading="state.isLoadingRemoteSpaces"
@@ -166,6 +146,4 @@ dialog.templates
       &.product
         background-color #ee83ee
         color var(--primary-on-light-background)
-  section.add-to-templates
-    padding-bottom 0
 </style>

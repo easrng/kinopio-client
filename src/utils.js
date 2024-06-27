@@ -3,7 +3,7 @@ import cache from '@/cache.js'
 import moonphase from '@/moonphase.js'
 import consts from '@/consts.js'
 import codeLanguages from '@/data/codeLanguages.json'
-import helloSpace from '@/data/hello.json'
+import newSpaceTemplate from '@/data/new.json'
 
 import { nanoid } from 'nanoid'
 import uniqBy from 'lodash-es/uniqBy'
@@ -1478,8 +1478,8 @@ export default {
     const emptyArrayKeys = ['users', 'collaborators', 'spectators', 'clients']
     const deleteKeys = ['url', 'originSpaceId', 'editedAt', 'editedByUserId', 'createdAt', 'updatedAt', 'updateHash']
     const userId = user?.id || consts.moderatorUserId
-    let space = this.clone(helloSpace)
-    space.name = 'Hello Kinopio'
+    let space = this.clone(newSpaceTemplate)
+    space.name = 'New Space'
     space.privacy = 'private'
     space.visits = 0
     space.showInExplore = false
@@ -1948,18 +1948,12 @@ export default {
   urlIsSpace (url) {
     if (!url) { return }
     if (this.urlIsInvite(url)) { return true }
-    let spaceUrlPattern
-    if (consts.isDevelopment()) {
-      // https://regexr.com/5hjc2
-      spaceUrlPattern = new RegExp(/(?:kinopio\.local:.*\/)(.*)\b/gi)
-    } else {
-      // https://regexr.com/60jvc
-      // 'https://kinopio.club/' (protocol required)
-      // no 'invite?' after 'club' (no invite links)
-      // alphanumber and '-' characters after
-      // until whitespace or end of string
-      spaceUrlPattern = new RegExp(/(https:\/\/kinopio\.club\/)(?:(?!invite\?).)(['A-Za-z0-9-]*)/gi)
-    }
+    // https://regexr.com/60jvc
+    // location.origin + '/'
+    // no 'invite?' after '/' (no invite links)
+    // alphanumber and '-' characters after
+    // until whitespace or end of string
+    let spaceUrlPattern = new RegExp(String.raw`(${this.escapeRegExp(location.origin)}\/)(?:(?!invite\?).)(['A-Za-z0-9-]*)`, 'gi')
     const isSpaceUrl = url.match(spaceUrlPattern)
     return Boolean(isSpaceUrl)
   },
@@ -2571,5 +2565,8 @@ export default {
     }
     layers.push(backgroundLayer)
     return layers
+  },
+  escapeRegExp (string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   }
 }
